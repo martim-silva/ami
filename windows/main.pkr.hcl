@@ -33,16 +33,22 @@ source "virtualbox-iso" "windows-vm" {
   
   floppy_files     = [local.autounattend_path]
   
-  pause_before_connecting = "30m"
-  ssh_username     = local.ssh_username
-  ssh_password     = local.ssh_password
+  communicator        = "winrm"
+  winrm_username = local.ssh_username
+  winrm_password = local.ssh_password
+  guest_additions_mode = "upload"  # Enable Guest Additions installation
+  guest_additions_path = "C:\\Users\\CTW03071\\Downloads\\VBoxGuestAdditions_7.1.6.iso"  # Ensure this points to the correct Guest Additions ISO (this is often bundled with VirtualBox)
+
+  # pause_before_connecting = "30m"
+  # ssh_username     = local.ssh_username
+  # ssh_password     = local.ssh_password
+
 
   chipset          = local.chipset
   firmware         = local.firmware
   disk_size        = local.disk_size
   vm_name          = local.vm_name
   nested_virt      = true
-  shutdown_command = "shutdown /s"
   cpus             = local.cpus
   memory           = local.memory
   gfx_vram_size    = 128
@@ -54,10 +60,17 @@ source "virtualbox-iso" "windows-vm" {
     "<enter>"
   ]
   boot_wait = "60s"
+
+  shutdown_command = "shutdown /s /t 5 /f /d p:4:1 /c \"Packer Shutdown\""
+  shutdown_timeout = "30m"
 }
 
 build {
   sources = [
     "sources.virtualbox-iso.windows-vm"
     ]
+
+    post-processor "vagrant" {
+      output = "output/${local.vm_name}-vagrant.box"
+  }
 }
