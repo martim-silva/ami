@@ -36,6 +36,10 @@ source "virtualbox-iso" "windows-vm" {
   communicator        = "winrm"
   winrm_username = local.ssh_username
   winrm_password = local.ssh_password
+  winrm_use_ssl = true
+  winrm_port = 5986
+  winrm_insecure = true  # because your cert is self-signed
+
   guest_additions_mode = "upload"  # Enable Guest Additions installation
   guest_additions_path = "C:\\Users\\CTW03071\\Downloads\\VBoxGuestAdditions_7.1.6.iso"  # Ensure this points to the correct Guest Additions ISO (this is often bundled with VirtualBox)
 
@@ -62,13 +66,20 @@ source "virtualbox-iso" "windows-vm" {
   boot_wait = "60s"
 
   shutdown_command = "shutdown /s /t 5 /f /d p:4:1 /c \"Packer Shutdown\""
-  shutdown_timeout = "30m"
+  shutdown_timeout = "1h"
+
 }
 
 build {
   sources = [
     "sources.virtualbox-iso.windows-vm"
     ]
+
+    provisioner "powershell" {
+      inline = [
+        "Start-Process -FilePath 'D:\\VBoxWindowsAdditions.exe' -ArgumentList '/S' -Wait"
+      ]
+    }
 
     post-processor "vagrant" {
       output = "output/${local.vm_name}-vagrant.box"
