@@ -127,7 +127,7 @@
         <!-- https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-shell-setup -->
             <AutoLogon>
                 <Password>
-                    <Value>packer</Value>
+                    <Value>vagrant</Value>
                     <PlainText>true</PlainText>
                 </Password>
                 <Enabled>true</Enabled>

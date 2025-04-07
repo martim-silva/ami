@@ -12,7 +12,11 @@ It looks like [Packer](https://www.packer.io/) is the way to go.
 
 [Hashicorp Packer Crash Course with Digital Ocean](https://www.youtube.com/watch?v=T2Gx2fGT9kk)
 
+<<<<<<< HEAD
 Digital Ocean Token - *****************
+=======
+Digital Ocean Token - ******************
+>>>>>>> 1192966 ( - Removed token from story.md)
 
 Now that we complete the tutorial, let's try building a Windows image using Packer [virtualbox-iso](https://developer.hashicorp.com/packer/plugins/builders/virtualbox/iso) builder.
 
