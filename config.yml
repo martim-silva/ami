@@ -1,0 +1,11 @@
+infra:
+  windows-ami:
+    chipset: piix3
+    firmware: bios
+    disk_size: 32000 
+    cpus: 1
+    memory: 4096
+    iso_url: "file://C:\\Users\\ee12099\\Downloads\\SERVER_EVAL_x64FRE_en-us.iso"
+    guest_os_type: Windows2022_64
+    vm_name: Windows Server 2022_64
+    autounattend_path: "D:\\repo\\ami\\infra\\windows-ami\\Autounattend.xml"
