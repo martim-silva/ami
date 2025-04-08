@@ -4,6 +4,10 @@ packer {
       version = ">= 1.0.4"
       source = "github.com/hashicorp/virtualbox"
     }
+    vagrant = {
+      version = ">= 1.0.0"
+      source  = "github.com/hashicorp/vagrant"
+    }
   }
 }
 
@@ -51,7 +55,7 @@ source "virtualbox-iso" "windows-vm" {
   chipset          = local.chipset
   firmware         = local.firmware
   disk_size        = local.disk_size
-  vm_name          = local.vm_name
+  vm_name          = "Test"
   nested_virt      = true
   cpus             = local.cpus
   memory           = local.memory
