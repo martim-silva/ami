@@ -22,6 +22,7 @@ locals {
   guest_os_type = "${consul_key("infra/windows-ami/guest_os_type")}"
   vm_name = "${consul_key("infra/windows-ami/vm_name")}"
   autounattend_path = "${consul_key("infra/windows-ami/autounattend_path")}"
+  guest_additions_path = "${consul_key("infra/windows-ami/guest_additions_path")}" # Path to the Guest Additions ISO
 }
 
 local "ssh_password" {
@@ -45,7 +46,7 @@ source "virtualbox-iso" "windows-vm" {
   winrm_insecure = true  # because your cert is self-signed
 
   guest_additions_mode = "upload"  # Enable Guest Additions installation
-  guest_additions_path = "C:\\Users\\CTW03071\\Downloads\\VBoxGuestAdditions_7.1.6.iso"  # Ensure this points to the correct Guest Additions ISO (this is often bundled with VirtualBox)
+  guest_additions_path = local.guest_additions_path  # Ensure this points to the correct Guest Additions ISO (this is often bundled with VirtualBox)
 
   # pause_before_connecting = "30m"
   # ssh_username     = local.ssh_username
@@ -81,7 +82,7 @@ build {
 
     provisioner "powershell" {
       inline = [
-        "Start-Process -FilePath 'D:\\VBoxWindowsAdditions.exe' -ArgumentList '/S' -Wait",
+        "Start-Process -FilePath 'E:\\VBoxWindowsAdditions.exe' -ArgumentList '/S' -Wait",
 
         "Write-Host \"Installing Chocolatey...\"",
         "Set-ExecutionPolicy Bypass -Scope Process -Force",
