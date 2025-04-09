@@ -81,7 +81,15 @@ build {
 
     provisioner "powershell" {
       inline = [
-        "Start-Process -FilePath 'D:\\VBoxWindowsAdditions.exe' -ArgumentList '/S' -Wait",
+        "# Find the Guest Additions ISO mount (by volume label or .exe file)
+        $cdromDrive = Get-WmiObject Win32_Volume | Where-Object { $_.Label -like "*VBox*" -or $_.DriveType -eq 5 }
+
+        if ($cdromDrive -and (Test-Path "$($cdromDrive.DriveLetter)\VBoxWindowsAdditions.exe")) {
+            Write-Host "Installing VirtualBox Guest Additions..."
+            Start-Process "$($cdromDrive.DriveLetter)\VBoxWindowsAdditions.exe" -ArgumentList "/S" -Wait
+        } else {
+            Write-Host "Guest Additions ISO not mounted or not found."
+        }",
 
         "Write-Host \"Installing Chocolatey...\"",
         "Set-ExecutionPolicy Bypass -Scope Process -Force",

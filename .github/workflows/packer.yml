@@ -1,0 +1,24 @@
+name: Build with Packer
+
+on:
+  push:
+    paths:
+      - '**.pkr.hcl'
+
+  workflow_dispatch:
+
+jobs:
+  packer-build:
+    runs-on: Windows
+    env:
+        VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
+        VAULT_ADDR: ${{ vars.VAULT_ADDR }}
+        CONSUL_HTTP_ADDR: ${{ vars.CONSUL_HTTP_ADDR }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build image with Packer
+        working-directory: infra/windows-ami
+        run: |
+          packer build -force main.pkr.hcl
