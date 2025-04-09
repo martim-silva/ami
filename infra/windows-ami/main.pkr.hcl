@@ -55,7 +55,7 @@ source "virtualbox-iso" "windows-vm" {
   chipset          = local.chipset
   firmware         = local.firmware
   disk_size        = local.disk_size
-  vm_name          = "Test"
+  vm_name          = local.vm_name
   nested_virt      = true
   cpus             = local.cpus
   memory           = local.memory
@@ -81,7 +81,18 @@ build {
 
     provisioner "powershell" {
       inline = [
-        "Start-Process -FilePath 'D:\\VBoxWindowsAdditions.exe' -ArgumentList '/S' -Wait"
+        "Start-Process -FilePath 'D:\\VBoxWindowsAdditions.exe' -ArgumentList '/S' -Wait",
+
+        "Write-Host \"Installing Chocolatey...\"",
+        "Set-ExecutionPolicy Bypass -Scope Process -Force",
+        "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072",
+        "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))",
+
+        "Write-Host \"Installing BMW Certificates...\"",
+        "$zipFile = \"$env:TEMP\\certificates.zip\"",
+        "Invoke-WebRequest -Uri \"http://sslcrl.bmwgroup.net/pki/BMW_Trusted_Certificates_Latest.zip\" -OutFile $zipFile -UseBasicParsing",
+        "Expand-Archive -Path $zipFile -DestinationPath \"$env:TEMP\\certificates\" -Force",
+        "Get-ChildItem -Path \"$env:TEMP\\*.crt\" -Recurse | ForEach-Object { Import-Certificate -FilePath $_.FullName -CertStoreLocation Cert:\\\\LocalMachine\\\\Root }"
       ]
     }
 

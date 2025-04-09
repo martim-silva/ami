@@ -20,16 +20,4 @@ Vagrant.configure("2") do |config|
   config.vm.communicator = "winrm"
   config.winrm.username = "vagrant"
   config.winrm.password = "vagrant"
-
-  $script = <<-SCRIPT
-  Write-Host "Installing Chocolatey..."
-  Set-ExecutionPolicy Bypass -Scope Process -Force
-  [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-  iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-
-  Write-Host "Installing Google Chrome..."
-  choco install googlechrome -y
-  SCRIPT
-
-  config.vm.provision "shell", inline: $script
 end
