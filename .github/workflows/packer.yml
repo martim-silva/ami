@@ -18,6 +18,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Cleanup
+        working-directory: infra/windows-ami
+        run: |
+          rm -rf .vagrant
+          rm -rf packer_cache
+          rm -rf output
+
       - name: Build image with Packer
         working-directory: infra/windows-ami
         run: |
