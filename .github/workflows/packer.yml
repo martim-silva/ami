@@ -9,6 +9,7 @@ on:
 
 jobs:
   packer-build:
+    environment: LEGION
     runs-on: Windows
     env:
         VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
