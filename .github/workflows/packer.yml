@@ -21,9 +21,10 @@ jobs:
       - name: Cleanup
         working-directory: infra/windows-ami
         run: |
-          rm -r -fo .vagrant
-          rm -r -fo packer_cache
-          rm -r -fo output
+          Remove-Item ".vagrant" -Recurse -Force -ErrorAction SilentlyContinue
+          Remove-Item "packer_cache" -Recurse -Force -ErrorAction SilentlyContinue
+          Remove-Item "output" -Recurse -Force -ErrorAction SilentlyContinue
+
 
       - name: Build image with Packer
         working-directory: infra/windows-ami
