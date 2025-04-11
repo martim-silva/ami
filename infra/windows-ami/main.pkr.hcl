@@ -91,12 +91,6 @@ build {
         "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))",
 
         "choco install virtualbox-guest-additions-guest.install -y",
-
-        "Write-Host \"Installing BMW Certificates...\"",
-        "$zipFile = \"$env:TEMP\\certificates.zip\"",
-        "Invoke-WebRequest -Uri \"http://sslcrl.bmwgroup.net/pki/BMW_Trusted_Certificates_Latest.zip\" -OutFile $zipFile -UseBasicParsing",
-        "Expand-Archive -Path $zipFile -DestinationPath \"$env:TEMP\\certificates\" -Force",
-        "Get-ChildItem -Path \"$env:TEMP\\*.crt\" -Recurse | ForEach-Object { Import-Certificate -FilePath $_.FullName -CertStoreLocation Cert:\\\\LocalMachine\\\\Root }"
       ]
     }
 
