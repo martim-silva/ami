@@ -73,7 +73,7 @@ source "virtualbox-iso" "windows-vm" {
   ]
   boot_wait = "60s"
 
-  shutdown_command = "shutdown /s /t 5 /f /d p:4:1 /c \"Packer Shutdown\""
+  shutdown_command = "shutdown -P now"
   shutdown_timeout = "1h"
 
 }
