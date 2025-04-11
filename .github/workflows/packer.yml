@@ -2,8 +2,8 @@ name: Build with Packer
 
 on:
   push:
-    paths:
-      - '**.pkr.hcl'
+    branches:
+      - main
 
   workflow_dispatch:
 
