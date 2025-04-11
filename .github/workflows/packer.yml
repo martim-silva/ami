@@ -21,7 +21,7 @@ jobs:
       - name: Cleanup
         working-directory: infra/windows-ami
         run: |
-          rm -r -fo.vagrant
+          rm -r -fo .vagrant
           rm -r -fo packer_cache
           rm -r -fo output
 
