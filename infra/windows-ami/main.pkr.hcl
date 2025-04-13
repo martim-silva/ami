@@ -31,6 +31,15 @@ local "ssh_password" {
   sensitive  = true
 }
 
+locals {
+  output_box = "output/${local.vm_name}-vagrant.box"
+  box_name = 'win-server-22'
+  box_version = '1.0.0'
+  provider = 'virtualbox'
+  registry_root = "\\beelink\share2\boxes"
+  box_url_base = "http://beelink:8040/vagrant/boxes"
+}
+
 source "virtualbox-iso" "windows-vm" {
   guest_os_type    = local.guest_os_type
   
@@ -84,18 +93,14 @@ build {
     ]
 
     provisioner "powershell" {
-      inline = [
-        "Write-Host \"Installing Chocolatey...\"",
-        "Set-ExecutionPolicy Bypass -Scope Process -Force",
-        "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072",
-        "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))",
-
-        "choco install virtualbox-guest-additions-guest.install  -y",
-        "choco install prometheus-windows-exporter.install --params '\"/EnabledCollectors:cpu,dns,memory,os\"' -y"
-      ]
+      script = "scripts/chocolatey-packages.ps1"
     }
 
     post-processor "vagrant" {
       output = "output/${local.vm_name}-vagrant.box"
-  }
+    }
+
+    post-processor "shell-local" {
+      command = "powershell.exe -ExecutionPolicy Bypass -File scripts/box-metadata.ps1 `\"${var.output_box}`\" `\"${var.box_name}`\" `\"${var.box_version}`\" `\"${var.provider}`\" `\"${var.registry_root}`\" `\"${var.box_url_base}`\""
+    }
 }
