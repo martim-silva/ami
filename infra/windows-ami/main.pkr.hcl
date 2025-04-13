@@ -33,9 +33,9 @@ local "ssh_password" {
 
 locals {
   output_box = "output/${local.vm_name}-vagrant.box"
-  box_name = 'win-server-22'
-  box_version = '1.0.0'
-  provider = 'virtualbox'
+  box_name = "win-server-22"
+  box_version = "1.0.0"
+  provider = "virtualbox"
   registry_root = "\\\\beelink\\share2\\boxes"
   box_url_base = "http://beelink:8040/vagrant/boxes"
 }
