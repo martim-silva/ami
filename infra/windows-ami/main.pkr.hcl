@@ -47,7 +47,7 @@ source "virtualbox-iso" "windows-vm" {
   winrm_insecure = true  # because your cert is self-signed
   winrm_timeout = "1h30m"
   
-  guest_additions_mode = "upload"
+  guest_additions_mode = "attach"
   guest_additions_url = local.guest_additions_url
   guest_additions_path = local.guest_additions_path  
 
