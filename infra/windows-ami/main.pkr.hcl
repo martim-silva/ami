@@ -101,6 +101,6 @@ build {
     }
 
     post-processor "shell-local" {
-      command = "powershell.exe -ExecutionPolicy Bypass -File scripts/box-metadata.ps1 `\"${var.output_box}`\" `\"${var.box_name}`\" `\"${var.box_version}`\" `\"${var.provider}`\" `\"${var.registry_root}`\" `\"${var.box_url_base}`\""
+      command = "powershell.exe -ExecutionPolicy Bypass -File scripts/box-metadata.ps1 `\"${local.output_box}`\" `\"${local.box_name}`\" `\"${local.box_version}`\" `\"${local.provider}`\" `\"${local.registry_root}`\" `\"${local.box_url_base}`\""
     }
 }
