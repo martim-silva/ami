@@ -36,7 +36,7 @@ locals {
   box_name = 'win-server-22'
   box_version = '1.0.0'
   provider = 'virtualbox'
-  registry_root = "\\beelink\share2\boxes"
+  registry_root = "\\\\beelink\\share2\\boxes"
   box_url_base = "http://beelink:8040/vagrant/boxes"
 }
 
