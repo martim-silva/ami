@@ -93,14 +93,10 @@ build {
     ]
 
     provisioner "powershell" {
-      script = "scripts/chocolatey-packages.ps1"
+      script = "scripts/setup.ps1"
     }
 
     post-processor "vagrant" {
       output = "output/${local.vm_name}-vagrant.box"
-    }
-
-    post-processor "shell-local" {
-      command = "powershell.exe -ExecutionPolicy Bypass -File scripts/box-metadata.ps1 `\"${local.output_box}`\" `\"${local.box_name}`\" `\"${local.box_version}`\" `\"${local.provider}`\" `\"${local.registry_root}`\" `\"${local.box_url_base}`\""
     }
 }

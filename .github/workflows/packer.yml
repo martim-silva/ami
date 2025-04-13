@@ -26,8 +26,12 @@ jobs:
           Remove-Item "packer_cache" -Recurse -Force -ErrorAction SilentlyContinue
           Remove-Item "output" -Recurse -Force -ErrorAction SilentlyContinue
 
-
       - name: Build image with Packer
         working-directory: infra/windows-ami
         run: |
           packer build -force main.pkr.hcl
+
+      - name: Publish Box
+        shell: powershell
+        run: |
+          .\scripts\box-metadata.ps1 -BoxFile '.\output\Windows Server 2022_64-vagrant.box' -BoxName "windows-server-2022" -BoxVersion "1.0.0" -Provider "virtualbox" -RegistryRoot "\\beelink\share2\boxes" -BoxUrlBase "http://beelink:8040/vagrant/boxes/"
