@@ -73,7 +73,7 @@ source "virtualbox-iso" "windows-vm" {
   ]
   boot_wait = "60s"
 
-  shutdown_command = "shutdown -P now"
+  shutdown_command = "cmd /c shutdown /s /t 10 /f /d p:4:1 /c \"Packer shutdown\""
   shutdown_timeout = "1h"
 
 }
@@ -90,7 +90,8 @@ build {
         "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072",
         "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))",
 
-        "choco install virtualbox-guest-additions-guest.install -y",
+        "choco install virtualbox-guest-additions-guest.install  -y",
+        "choco install prometheus-windows-exporter.install --params '\"/EnabledCollectors:cpu,dns,memory,os\"' -y"
       ]
     }
 
