@@ -10,7 +10,7 @@ on:
 jobs:
   packer-build:
     name: Packer 📦 Build 🛠️
-    environment: LEGION
+    environment: CTW
     runs-on: Windows
     env:
         VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
