@@ -7,6 +7,10 @@ on:
 
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   packer-build:
     name: Packer 📦 Build 🛠️
@@ -34,5 +38,12 @@ jobs:
 
       - name: Publish 📦
         shell: powershell
+        env:
+          BOX_NAME: "windows-server-2022"
+          BOX_VERSION: "1.0.0"
+          BOX_PROVIDER: "virtualbox"
+          BOX_URL_BASE: "http://localhost:8040/vagrant/boxes/"
+          REGISTRY_ROOT: "D:\boxes"
+          BOX_FILE: ".infra\\windows-ami\\output\\Windows Server 2022_64-vagrant.box"
         run: |
-          .\scripts\box-metadata.ps1 -BoxFile '.infra\windows-ami\output\Windows Server 2022_64-vagrant.box' -BoxName "windows-server-2022" -BoxVersion "1.0.0" -Provider "virtualbox" -RegistryRoot "\\beelink\share2\boxes" -BoxUrlBase "http://beelink:8040/vagrant/boxes/"
+          .\scripts\box-metadata.ps1 -BoxFile ${{ env.BOX_FILE }} -BoxName ${{ env.BOX_NAME }} -BoxVersion ${{ env.BOX_VERSION }} -Provider ${{ env.BOX_PROVIDER }} -RegistryRoot ${{ env.REGISTRY_ROOT }} -BoxUrlBase ${{ env.BOX_URL_BASE }}
