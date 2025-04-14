@@ -90,4 +90,29 @@ build {
     post-processor "vagrant" {
       output = "output/${local.vm_name}-vagrant.box"
     }
+
+    post-processor "shell-local" {
+      inline = [
+        "mkdir -p output/ovf",
+        "tar -xf output/${local.vm_name}-vagrant.box -C output/ovf",
+
+        # Detect whether it's an OVF-based or VMDK-only box
+        "cd output/ovf",
+        "if [ -f box.ovf ]; then",
+        "  VBoxManage import box.ovf --vsys 0 --vmname '${local.vm_name}-ovf-temp'",
+        "else",
+        "  VBoxManage createvm --name '${local.vm_name}-ovf-temp' --register",
+        "  VBoxManage modifyvm '${local.vm_name}-ovf-temp' --memory ${local.memory} --cpus ${local.cpus} --firmware ${local.firmware} --ostype ${local.guest_os_type}",
+        "  VBoxManage storagectl '${local.vm_name}-ovf-temp' --name 'SATA Controller' --add sata --controller IntelAhci",
+        "  VBoxManage storageattach '${local.vm_name}-ovf-temp' --storagectl 'SATA Controller' --port 0 --device 0 --type hdd --medium box.vmdk",
+        "fi",
+
+        # Export to OVF
+        "VBoxManage export '${local.vm_name}-ovf-temp' --output output/${local.vm_name}.ovf",
+
+        # Clean up
+        "VBoxManage unregistervm '${local.vm_name}-ovf-temp' --delete"
+      ]
+    }
+
 }
