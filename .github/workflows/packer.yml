@@ -15,7 +15,7 @@ jobs:
   packer-build:
     name: Packer 📦 Build 🛠️
     environment: CTW
-    runs-on: Windows
+    runs-on: [ Windows, "${{ github.environment }}" ]
     env:
         VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
         VAULT_ADDR: ${{ vars.VAULT_ADDR }}
