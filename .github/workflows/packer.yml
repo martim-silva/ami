@@ -42,8 +42,8 @@ jobs:
           BOX_NAME: "windows-server-2022"
           BOX_VERSION: "1.0.0"
           BOX_PROVIDER: "virtualbox"
-          BOX_URL_BASE: "http://localhost:8040/vagrant/boxes/"
-          REGISTRY_ROOT: "D:\\boxes"
+          BOX_URL_BASE: "http://beelink:8040/vagrant/boxes/"
+          REGISTRY_ROOT: "\\\\beelink\\share2\\boxes"
           BOX_FILE: ".\\infra\\windows-ami\\output\\Windows Server 2022_64-vagrant.box"
         run: |
           .\scripts\box-metadata.ps1 -BoxFile ${{ env.BOX_FILE }} -BoxName ${{ env.BOX_NAME }} -BoxVersion ${{ env.BOX_VERSION }} -Provider ${{ env.BOX_PROVIDER }} -RegistryRoot ${{ env.REGISTRY_ROOT }} -BoxUrlBase ${{ env.BOX_URL_BASE }}
