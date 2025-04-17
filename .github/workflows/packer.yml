@@ -44,6 +44,6 @@ jobs:
           BOX_PROVIDER: "virtualbox"
           BOX_URL_BASE: "http://localhost:8040/vagrant/boxes/"
           REGISTRY_ROOT: "D:\\boxes"
-          BOX_FILE: ".\\infra\\windows-ami\\output-windows-vm\\Windows Server 2022_64-vagrant.box"
+          BOX_FILE: ".\\infra\\windows-ami\\output\\Windows_Server_2022_64-vagrant.box"
         run: |
           .\scripts\box-metadata.ps1 -BoxFile ${{ env.BOX_FILE }} -BoxName ${{ env.BOX_NAME }} -BoxVersion ${{ env.BOX_VERSION }} -Provider ${{ env.BOX_PROVIDER }} -RegistryRoot ${{ env.REGISTRY_ROOT }} -BoxUrlBase ${{ env.BOX_URL_BASE }}
